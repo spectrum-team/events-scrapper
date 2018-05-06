@@ -3,8 +3,11 @@ package scrappers
 import (
 	"events-scrapper/models"
 	"log"
+	"strings"
+	"time"
 
 	"github.com/PuerkitoBio/goquery"
+	"github.com/goodsign/monday"
 )
 
 // Scrape goes into the conectate webpage and gather the events listed there
@@ -31,7 +34,9 @@ func Scrape() []models.Event {
 	// Date of event
 	doc.Find("td.post-col-date span.entry-title").Each(func(index int, item *goquery.Selection) {
 		currentEvent := eventMap[index]
-		currentEvent.Date = item.Text()
+		dateStr := strings.Replace(item.Text(), ",", "", -1)
+		date, _ := monday.ParseInLocation("02 Jan 2006", dateStr, time.UTC, monday.LocaleEsES)
+		currentEvent.Date = date
 		eventMap[index] = currentEvent
 	})
 

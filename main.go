@@ -1,11 +1,15 @@
 package main
 
 import (
+	"events-scrapper/actions"
 	"events-scrapper/scrappers"
-	"fmt"
+	"log"
 )
 
 func main() {
 	events := scrappers.Scrape()
-	fmt.Println("The Events", events)
+	err := actions.UpdateEventCollection(events)
+	if err != nil {
+		log.Fatal(err)
+	}
 }

@@ -9,7 +9,7 @@ import (
 )
 
 func getDBSession() (*mgo.Session, error) {
-	session, err := mgo.Dial("localhost")
+	session, err := mgo.Dial("mongodb://testquehay:testquehay@ds117540.mlab.com:17540/quehaysd")
 	if err != nil {
 		return nil, err
 	}
@@ -27,7 +27,7 @@ func UpdateEventCollection(events []models.Event) error {
 	defer db.Close()
 
 	for _, e := range events {
-		err = db.DB("QueHaySD").C("event").Insert(e)
+		err = db.DB("quehaysd").C("event").Insert(e)
 		if err != nil {
 			if !strings.Contains(err.Error(), "name_1_type_1_place_1 dup key") {
 				return err

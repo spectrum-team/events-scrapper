@@ -15,7 +15,7 @@ import (
 )
 
 func getDBSession() (*mgo.Session, error) {
-	session, err := mgo.Dial("localhost")
+	session, err := mgo.Dial("mongodb://testquehay:testquehay@ds117540.mlab.com:17540/quehaysd")
 	if err != nil {
 		return nil, err
 	}
@@ -35,7 +35,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	e, err := handlers.NewEventHandler(db.DB("QueHaySD"))
+	e, err := handlers.NewEventHandler(db.DB("quehaysd"))
 	if err != nil {
 		log.Fatal(err)
 	}

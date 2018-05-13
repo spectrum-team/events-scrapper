@@ -3,6 +3,7 @@ package actions
 import (
 	"events-scrapper/models"
 	"log"
+	"strings"
 
 	mgo "gopkg.in/mgo.v2"
 )
@@ -28,7 +29,9 @@ func UpdateEventCollection(events []models.Event) error {
 	for _, e := range events {
 		err = db.DB("QueHaySD").C("event").Insert(e)
 		if err != nil {
-			return err
+			if !strings.Contains(err.Error(), "name_1_type_1_place_1 dup key") {
+				return err
+			}
 		}
 	}
 

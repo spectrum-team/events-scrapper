@@ -14,6 +14,7 @@ import (
 func Scrape() []models.Event {
 	eventMap := make(map[int]models.Event)
 
+	log.Println("This is a test log")
 	doc, err := goquery.NewDocument("http://www.conectate.com.do/eventos/")
 	if err != nil {
 		log.Fatal(err)

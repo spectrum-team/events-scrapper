@@ -3,13 +3,15 @@ package actions
 import (
 	"events-scrapper/models"
 	"log"
+	"os"
 	"strings"
 
 	mgo "gopkg.in/mgo.v2"
 )
 
 func getDBSession() (*mgo.Session, error) {
-	session, err := mgo.Dial("mongodb://testquehay:testquehay@ds117540.mlab.com:17540/quehaysd")
+	conn := os.Getenv("CONN_STRING")
+	session, err := mgo.Dial(conn)
 	if err != nil {
 		return nil, err
 	}

@@ -3,7 +3,6 @@ package main
 import (
 	"events-scrapper/actions"
 	"events-scrapper/handlers"
-	"events-scrapper/scrappers"
 	"log"
 	"net/http"
 	"os"
@@ -14,8 +13,9 @@ import (
 	mgo "gopkg.in/mgo.v2"
 )
 
-func getDBSession() (*mgo.Session, error) {
-	session, err := mgo.Dial("mongodb://testquehay:testquehay@ds117540.mlab.com:17540/quehaysd")
+// "mongodb://testquehay:testquehay@ds117540.mlab.com:17540/quehaysd"
+func getDBSession(conn string) (*mgo.Session, error) {
+	session, err := mgo.Dial(conn)
 	if err != nil {
 		return nil, err
 	}
@@ -24,13 +24,14 @@ func getDBSession() (*mgo.Session, error) {
 }
 
 func main() {
-	events := scrappers.Scrape()
-	err := actions.UpdateEventCollection(events)
-	if err != nil {
-		log.Fatal(err)
-	}
 
-	db, err := getDBSession()
+	// CRON Jobs
+	job := actions.NewJob()
+	job.GetConcertData("8h")
+
+	conn := os.Getenv("CONN_STRING")
+
+	db, err := getDBSession(conn)
 	if err != nil {
 		log.Fatal(err)
 	}

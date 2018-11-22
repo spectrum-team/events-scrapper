@@ -46,6 +46,7 @@ func main() {
 	router := mux.NewRouter()
 
 	router.HandleFunc("/events", e.GetAllEvents).Methods("GET")
+	router.HandleFunc("/events", e.QueryEvents).Methods("POST")
 
 	listen := os.Getenv("PORT")
 
